@@ -206,7 +206,7 @@ void MainWindow::on_table_ui_cellChanged(int row, int column)
        {
            if (h=="sum")
            {
-               table[{row,column}] = new cell_formula(cell_formula::SUM, { row1[0], col1[0] }, { row1[1], col1[1] });
+               table[{row,column}] = new cell_formula(cell_formula::SUM, { row1[0]-1, col1[0]-1 }, { row1[1]-1, col1[1]-1 });
                abstr_cell* cell=table[{row,column}];
                float value = static_cast<cell_formula*>(cell)->calc_value();
                QString inter;
@@ -216,7 +216,7 @@ void MainWindow::on_table_ui_cellChanged(int row, int column)
                else if (h=="mul")
 
            {
-               table[{row,column}] = new cell_formula(cell_formula::MUL, { row1[0], col1[0] }, { row1[1], col1[1] });
+               table[{row,column}] = new cell_formula(cell_formula::MUL, { row1[0]-1, col1[0]-1 }, { row1[1]-1, col1[1]-1 });
                abstr_cell* cell=table[{row,column}];
                float value = static_cast<cell_formula*>(cell)->calc_value();
                QString inter;
@@ -224,10 +224,15 @@ void MainWindow::on_table_ui_cellChanged(int row, int column)
                ui->table_ui->setItem(row,column,new QTableWidgetItem(inter));
            }
                else if (h=="avg")
-           {table[{row,column}] = new cell_formula(cell_formula::AVG, { row1[0], col1[0] }, { row1[1], col1[1] });
+           {table[{row,column}] = new cell_formula(cell_formula::AVG, { row1[0]-1, col1[0]-1 }, { row1[1]-1, col1[1]-1 });
+               abstr_cell* cell=table[{row,column}];
+               float value = static_cast<cell_formula*>(cell)->calc_value();
+               QString inter;
+               inter.setNum(value);
+               ui->table_ui->setItem(row,column,new QTableWidgetItem(inter));
            }
                else if (s=="=err")
-            {   table[{row,column}] = new cell_formula(cell_formula::ERR, { row1[0], col1[0] }, { row1[11], col1[1] });
+            {   table[{row,column}] = new cell_formula(cell_formula::ERR, { row1[0]-1, col1[0]-1 }, { row1[1]-1, col1[1]-1 });
                 abstr_cell* cell=table[{row,column}];
                 float value = static_cast<cell_formula*>(cell)->calc_value();
                 string str="NaN";
